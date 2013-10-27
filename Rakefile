@@ -7,11 +7,4 @@ Rake::TestTask.new do |t|
 	t.verbose = true
 end
 
-task :install => :uninstall  do
-  `rm *.gem`
-  `gem build selfie.gemspec`
-  `gem install --local selfie-#{Selfie::VERSION}.gem`
-  `rbenv rehash`
-end
-
 task :default => :test
