@@ -1,5 +1,9 @@
 module Selfie
   module DSL
+    def snap_reference_dir
+      asset = self.class.name.gsub(/Test$/,'').underscore
+      asset_dir = File.join 'test','assets', asset
+    end
 
     def make_report
       process_images
@@ -12,16 +16,16 @@ module Selfie
 
     def process_images
       @diff = []
-      has_diff = Dir.exist? "tmp/snap/reference"
+      @has_diff = Dir.exist? snap_reference_dir
 
       for snap in @snaps
         name = snap[:name]
         snap[:src]  = src  = "tmp/snap/current/#{name}.png"
 
-        next unless has_diff
+        next unless @has_diff
 
         snap[:diff] = diff = "tmp/snap/current/#{name}_diff.png"
-        snap[:ref]  = ref  = "tmp/snap/reference/#{name}.png"
+        snap[:ref]  = ref  = "#{snap_reference_dir}/#{name}.png"
 
         `compare #{ref} #{src} #{diff}`
         cmd = "convert #{ref} #{src} -compose Difference -composite -colorspace gray -format '%[fx:mean*100]' info:"
@@ -56,6 +60,7 @@ module Selfie
 
     def template
       <<-ERB
+
         <style>
           body {
             color:#4a4a4a;
@@ -70,6 +75,9 @@ module Selfie
             border-radius:10px;
             background-color:white;
           }
+          .no-ref {
+            background-color:#efeeef;padding:10px; border-radius:5px;
+          }
           p {
             word-wrap: break-word;
           }
@@ -81,13 +89,21 @@ module Selfie
           .img-failed img { border-color:#FF9999;}
           .logo {float:right;width:80px; border-radius:5px;width:60px;height:60px}
         </style>
+
         <title>Selfie results</title>
         <body>
         <div class='paper'>
         <img class='logo' title='Emile <3 you!' src='https://0.gravatar.com/avatar/aca8aad5245e144c9222102decb1776e&s=440'/>
 
         <h1 class='<%=(@diff.empty? ? "success" : "failed") %>'>Selfie - <%=(@diff.empty? ? "Lookin' good :)" : "Things changed") %></h1>
+
         <hr size=1/>
+
+        <% unless @has_diff %>
+          <div class='no-ref'>No reference images path defined in '<%=snap_reference_dir%>' -
+          You can copy this: 'cp -R tmp/snap/current <%=snap_reference_dir%>'
+          </div>
+        <% end %>
 
         <div class='results'>
         <% unless @diff.empty? %>
