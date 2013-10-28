@@ -4,10 +4,17 @@ Visual UI regression tests using PhantomJS, Poltergeist and Imagemagick for Capy
 
 ## To get started
 
-For rails it's easy! Just add ``selfie`` to your ``Gemfile``
+For Rails it's easy! Just add ``selfie`` to your ``Gemfile``
 
 ```
 gem 'selfie'
+```
+
+You need imagemagick, and phantomjs in able to run the test. So install if you don't have it. This is how you install it for OSX (using brew):
+
+```
+brew install phantomjs
+brew install imagemagick
 ```
 
 Then create an integration test and include the `Selfie::DSL` and use `snap!` to capture a screenshot.
@@ -33,7 +40,7 @@ end
 ### Creating reference image sets
 
 Easy huh, except there is at this moment nothing to diff with. You need to run
-the script once to create your reference images.
+the test once in a successful state to create your reference images.
 
 Selfie saves the images of the current run into `tmp/snap/current`. You can simply copy
 that directory to create your reference images. It will look for the reference images in th `test/assets` directory. The name of the directory is the underscored variant with ``Test`` removed so in this case ``complete_purchase``
@@ -81,11 +88,11 @@ to verify that specific page has loaded before you snap a shot!
 
 ## Under the hood
 
-It basically relies on a couple of components. PhantomJS, and ImageMagick. It uses PhantomJS's, `save_screenshot` method to capture a screenshot. And ImageMagic's ``compare`` and ``convert`` to make a diff and measure the difference.
+It's actually really simple. It basically relies on a couple of components. PhantomJS, and ImageMagick. It uses PhantomJS's, `save_screenshot` method to capture a screenshot. And ImageMagic's ``compare`` and ``convert`` to make a diff and measure the difference. It uses ERB to generate up a report. 
 
-## Contribute!
+## Contribute
 
-Awesome please help me out! This is cool, but it can be much cooler, friendlier. More awesome. A couple of things on my wishlist!
+Awesome, please help me out! This is cool, but it can be much cooler, friendlier. More awesome. A couple of things on my wishlist!
 
 - A assert `snap_and_compare! 'home', threshold: 0.05`
 - snap! with a given element
