@@ -1,7 +1,8 @@
 module Selfie
   module DSL
     def snap_reference_dir
-      asset = self.class.name.gsub(/Test$/,'').underscore
+      asset = self.class.name.gsub(/Test$/,'')
+      asset = asset.gsub(/([A-Z])/,'_\1').gsub(/::_/,'/').gsub(/^_/,'').downcase
       asset_dir = File.join 'test','assets', asset
     end
 
