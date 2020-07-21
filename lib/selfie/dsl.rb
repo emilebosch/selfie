@@ -1,9 +1,9 @@
 module Selfie
   module DSL
     def snap_reference_dir
-      asset = self.class.name.gsub(/Test$/,'')
-      asset = asset.gsub(/([A-Z])/,'_\1').gsub(/::_/,'/').gsub(/^_/,'').downcase
-      asset_dir = File.join 'test','assets', asset
+      asset = self.class.name.gsub(/Test$/, "")
+      asset = asset.gsub(/([A-Z])/, '_\1').gsub(/::_/, "/").gsub(/^_/, "").downcase
+      asset_dir = File.join "test", "assets", asset
     end
 
     def make_report
@@ -21,12 +21,12 @@ module Selfie
 
       for snap in @snaps
         name = snap[:name]
-        snap[:src]  = src  = "tmp/snap/current/#{name}.png"
+        snap[:src] = src = "tmp/snap/current/#{name}.png"
 
         next unless @has_diff
 
         snap[:diff] = diff = "tmp/snap/current/#{name}_diff.png"
-        snap[:ref]  = ref  = "#{snap_reference_dir}/#{name}.png"
+        snap[:ref] = ref = "#{snap_reference_dir}/#{name}.png"
 
         `compare #{ref} #{src} #{diff}`
         cmd = "convert #{ref} #{src} -compose Difference -composite -colorspace gray -format '%[fx:mean*100]' info:"
@@ -38,12 +38,11 @@ module Selfie
       end
     end
 
-    def snap!(name, options={})
-
+    def snap!(name, options = {})
       name = ("%03d" % @film += 1) + "_#{name}"
       path = "tmp/snap/current/#{name}.png"
 
-      snap = {name: name, url: current_url}
+      snap = { name: name, url: current_url }
       snap[:threshold] = 0
 
       snap.merge!(options)

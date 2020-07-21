@@ -1,5 +1,5 @@
-require 'simplecov'
+require "simplecov"
 
 SimpleCov.start
-require 'minitest/autorun'
-require 'selfie'
+require "minitest/autorun"
+require "selfie"

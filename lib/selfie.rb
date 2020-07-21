@@ -1,2 +1,2 @@
-require 'selfie/version'
-require 'selfie/dsl'
+require "selfie/version"
+require "selfie/dsl"

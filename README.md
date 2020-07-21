@@ -4,7 +4,7 @@ Visual UI regression tests using PhantomJS, Poltergeist and Imagemagick for Capy
 
 ## To get started
 
-For Rails it's easy! Just add ``selfie`` to your ``Gemfile``
+For Rails it's easy! Just add `selfie` to your `Gemfile`
 
 ```
 gem 'selfie'
@@ -37,18 +37,18 @@ class CompletePurchaseTest < ActiveSupport::TestCase
   end
 end
 ```
+
 ### Creating reference image sets
 
 Easy huh, except there is at this moment nothing to diff with. You need to run
 the test once in a successful state to create your reference images.
 
 Selfie saves the images of the current run into `tmp/snap/current`. You can simply copy
-that directory to create your reference images. It will look for the reference images in th `test/assets` directory. The name of the directory is the underscored variant with ``Test`` removed so in this case ``complete_purchase``
+that directory to create your reference images. It will look for the reference images in th `test/assets` directory. The name of the directory is the underscored variant with `Test` removed so in this case `complete_purchase`
 
 ```
 cp -R tmp/snap/current test/assets/complete_purchase
 ```
-
 
 ## Being forgiving
 
@@ -79,16 +79,17 @@ end
 
 ## Being async
 
-`snap!` doesn't wait for a page load, it just snaps te current page. Normally, you might want to use one of the Capybara ``finders``, such as
+`snap!` doesn't wait for a page load, it just snaps te current page. Normally, you might want to use one of the Capybara `finders`, such as
 
 ```
 assert has_content? 'Welcome to Shopping!'
 ```
+
 to verify that specific page has loaded before you snap a shot!
 
 ## Under the hood
 
-It's actually really simple. It basically relies on a couple of components. PhantomJS, and ImageMagick. It uses PhantomJS's, `save_screenshot` method to capture a screenshot. And ImageMagic's ``compare`` and ``convert`` to make a diff and measure the difference. It uses ERB to generate up a report. 
+It's actually really simple. It basically relies on a couple of components. PhantomJS, and ImageMagick. It uses PhantomJS's, `save_screenshot` method to capture a screenshot. And ImageMagic's `compare` and `convert` to make a diff and measure the difference. It uses ERB to generate up a report.
 
 ## Contribute
 
@@ -97,4 +98,3 @@ Awesome, please help me out! This is cool, but it can be much cooler, friendlier
 - A assert `snap_and_compare! 'home', threshold: 0.05`
 - snap! with a given element
 - Add some tests if you like
-
